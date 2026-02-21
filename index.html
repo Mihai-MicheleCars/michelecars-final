@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta name="google-site-verification" content="3a5s0hafsy9CAqbYRnI94E46UomiP_0FDnuYIHhvDU4" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Michele Cars - Service Auto Constanta | Mecanica, Electrica, Detailing</title>
+  <meta name="description" content="Michele Cars - Service auto profesional in Constanta. Mecanica, electrica, detailing, diagnoza computerizata. Peste 30 ani de experienta.">
+  <meta name="google-site-verification" content="googlec4159db00531561b" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9HLQHR5C7E"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-9HLQHR5C7E');
+  </script>
+
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@3.7.6/dist/vuetify.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+</head>
+<body>
+  <div id="app">
+    <v-app>
+
+      <!-- ======== NAVBAR ======== -->
+      <v-app-bar :elevation="scrolled ? 4 : 0" :color="scrolled ? 'surface' : 'transparent'" class="px-2" fixed>
+        <v-container class="d-flex align-center">
+          <a href="#acasa" class="text-decoration-none d-flex align-center" @click.prevent="scrollTo('acasa')">
+            <img src="logo.png" alt="Michele Cars" height="52">
+          </a>
+
+          <v-spacer></v-spacer>
+
+          <!-- Desktop nav -->
+          <div class="d-none d-md-flex align-center ga-6">
+            <v-btn v-for="item in navItems" :key="item.id" variant="text" :color="activeSection === item.id ? 'amber' : 'white'"
+              size="small" class="text-uppercase letter-spacing-1" @click="scrollTo(item.id)">
+              {{ item.label }}
+            </v-btn>
+            <v-btn color="amber" variant="flat" rounded prepend-icon="mdi-phone" href="tel:+40727124898" class="ml-2">
+              0727 124 898
+            </v-btn>
+          </div>
+
+          <!-- Mobile hamburger -->
+          <v-app-bar-nav-icon class="d-md-none" @click="drawer = !drawer" color="white"></v-app-bar-nav-icon>
+        </v-container>
+      </v-app-bar>
+
+      <!-- Mobile drawer -->
+      <v-navigation-drawer v-model="drawer" location="right" temporary color="grey-darken-4">
+        <v-list nav>
+          <v-list-item v-for="item in navItems" :key="item.id" :prepend-icon="item.icon"
+            :title="item.label" @click="scrollTo(item.id); drawer = false"></v-list-item>
+          <v-divider class="my-2"></v-divider>
+          <v-list-item prepend-icon="mdi-phone" title="0727 124 898" href="tel:+40727124898"></v-list-item>
+          <v-list-item prepend-icon="mdi-whatsapp" title="WhatsApp" :href="whatsappUrl" target="_blank" class="text-green"></v-list-item>
+        </v-list>
+      </v-navigation-drawer>
+
+      <v-main>
+
+        <!-- ======== HERO with background image ======== -->
+        <section id="acasa" class="hero-section" :style="{ backgroundImage: 'linear-gradient(to right, rgba(0,0,0,.85) 40%, rgba(0,0,0,.4) 100%), url(' + heroImage + ')', backgroundSize: 'cover', backgroundPosition: 'center' }">
+          <v-container>
+            <v-row align="center" style="min-height:90vh">
+              <v-col cols="12" md="7" lg="6">
+                <div class="hero-badge text-gold">
+                  <v-icon size="16">mdi-shield-check</v-icon>
+                  Seriozitate si Competenta
+                </div>
+                <h1 class="text-h2 text-md-h1 font-weight-black text-white mb-4">
+                  Service Auto<br><span class="text-gold">Profesional</span> in Constanta
+                </h1>
+                <p class="text-body-1 text-grey-lighten-1 mb-8" style="max-width:540px">
+                  Cu peste 30 de ani de experienta, oferim servicii complete de mecanica, electrica, detailing si diagnoza computerizata. Folosim doar piese si echipamente profesionale.
+                </p>
+                <div class="d-flex flex-wrap ga-3 mb-12">
+                  <v-btn color="amber" size="x-large" rounded variant="flat" prepend-icon="mdi-calendar-clock"
+                    @click="scrollTo('programare')" class="text-black font-weight-bold">
+                    Programare Service
+                  </v-btn>
+                  <v-btn :href="whatsappUrl" target="_blank" color="green" size="x-large" rounded variant="flat"
+                    prepend-icon="mdi-whatsapp" class="font-weight-bold">
+                    WhatsApp
+                  </v-btn>
+                </div>
+
+                <v-divider class="mb-8" style="opacity:.15"></v-divider>
+
+                <v-row>
+                  <v-col cols="4" v-for="stat in stats" :key="stat.label">
+                    <div class="stat-number text-gold">{{ stat.value }}</div>
+                    <div class="text-caption text-grey-lighten-1 mt-1">{{ stat.label }}</div>
+                  </v-col>
+                </v-row>
+              </v-col>
+            </v-row>
+          </v-container>
+        </section>
+
+        <!-- ======== SERVICII with images ======== -->
+        <section id="servicii" class="py-16" style="background:#111">
+          <v-container>
+            <div class="text-center mb-12">
+              <h2 class="text-h3 font-weight-bold text-white">Serviciile <span class="text-gold">Noastre</span></h2>
+              <p class="text-body-1 text-grey mt-2 mx-auto" style="max-width:550px">
+                Oferim o gama completa de servicii auto, de la reparatii mecanice si electrice pana la detailing profesional.
+              </p>
+            </div>
+
+            <v-row>
+              <v-col v-for="service in services" :key="service.title" cols="12" sm="6" lg="4">
+                <v-card class="service-card h-100" color="grey-darken-4" rounded="lg" flat>
+                  <!-- Service image -->
+                  <v-img :src="service.image" height="200" cover class="align-end"
+                    gradient="to bottom, rgba(0,0,0,0) 50%, rgba(26,26,26,1) 100%">
+                    <v-card-title class="text-white font-weight-bold pb-2">
+                      <v-avatar size="36" :color="service.color" variant="tonal" rounded="lg" class="mr-3">
+                        <v-icon :icon="service.icon" size="20"></v-icon>
+                      </v-avatar>
+                      {{ service.title }}
+                    </v-card-title>
+                  </v-img>
+                  <v-card-text class="text-grey pt-4">
+                    {{ service.description }}
+                    <v-list density="compact" bg-color="transparent" class="mt-3 pa-0" v-if="service.items.length">
+                      <v-list-item v-for="item in service.items" :key="item" class="px-0" density="compact" min-height="32">
+                        <template #prepend>
+                          <v-icon icon="mdi-check-circle" color="amber" size="16" class="mr-2"></v-icon>
+                        </template>
+                        <v-list-item-title class="text-body-2 text-grey-lighten-1" style="white-space:normal">{{ item }}</v-list-item-title>
+                      </v-list-item>
+                    </v-list>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
+          </v-container>
+        </section>
+
+        <!-- spacer between services and prices -->
+        <div style="height:32px;background:#0d0d0d"></div>
+
+        <!-- ======== LISTA DE PRETURI ======== -->
+        <section id="preturi" class="py-16" style="background:#0d0d0d">
+          <v-container>
+            <div class="text-center mb-8">
+              <h2 class="text-h3 font-weight-bold text-white">Lista de <span class="text-gold">Preturi</span></h2>
+              <p class="text-body-2 text-grey mt-3 font-italic mx-auto" style="max-width:700px">
+                Preturile din aceasta lista sunt informative. Oferta finala pentru manopera se calculeaza in baza unui deviz si poate varia in functie de marca autoturismului, anul de fabricatie si complexitatea lucrarilor.
+              </p>
+            </div>
+
+            <!-- Grouped expansion panels -->
+            <v-expansion-panels class="price-panels">
+              <v-expansion-panel v-for="cat in priceCategories" :key="cat.title" bg-color="grey-darken-4" rounded="lg" class="mb-3">
+                <v-expansion-panel-title class="py-4">
+                  <div class="d-flex align-center ga-3 flex-grow-1">
+                    <v-avatar size="36" :color="cat.chipColor || 'amber'" variant="tonal" rounded="lg">
+                      <v-icon :icon="cat.icon" size="20"></v-icon>
+                    </v-avatar>
+                    <div>
+                      <div class="text-subtitle-1 font-weight-bold text-white">{{ cat.title }}</div>
+                      <div class="text-caption text-grey">{{ cat.items.length }} servicii &bull; de la {{ cat.minPrice }}</div>
+                    </div>
+                  </div>
+                </v-expansion-panel-title>
+                <v-expansion-panel-text>
+                  <!-- Table header -->
+                  <div class="d-flex text-uppercase text-caption font-weight-bold pa-2 mb-1" style="letter-spacing:1px;color:#f5c518;background:rgba(245,197,24,.04);border-radius:6px">
+                    <div style="flex:3">Serviciu</div>
+                    <div style="flex:1" class="text-right">Multimarca</div>
+                    <div style="flex:1" class="text-right">SUV</div>
+                  </div>
+                  <!-- Rows -->
+                  <div v-for="(row, ri) in cat.items" :key="row.name"
+                    class="d-flex align-center pa-2 price-row" :class="ri % 2 !== 0 ? 'price-row-alt' : ''">
+                    <div class="text-body-2 text-grey-lighten-1" style="flex:3">{{ row.name }}</div>
+                    <div class="text-right font-weight-bold text-gold" style="flex:1;white-space:nowrap">{{ row.multi }}</div>
+                    <div class="text-right font-weight-bold text-gold" style="flex:1;white-space:nowrap">{{ row.suv }}</div>
+                  </div>
+                </v-expansion-panel-text>
+              </v-expansion-panel>
+            </v-expansion-panels>
+
+            <div class="text-caption text-grey mt-4 text-center">
+              <v-icon size="14" class="mr-1">mdi-information-outline</v-icon>
+              Toate preturile sunt exprimate in LEI si includ doar manopera. Piese auto se factureaza separat.
+              Cu piese de la noi: <span class="text-gold font-weight-bold">-10% reducere manopera!</span>
+            </div>
+          </v-container>
+        </section>
+
+        <!-- ======== PROGRAMARE / CONTACT ======== -->
+        <section id="programare" class="py-16" style="background:#111">
+          <v-container>
+            <div class="text-center mb-12">
+              <h2 class="text-h3 font-weight-bold text-white">Cere o <span class="text-gold">Programare</span></h2>
+              <p class="text-body-1 text-grey mt-2">Completeaza formularul si te vom contacta in cel mai scurt timp.</p>
+            </div>
+
+            <v-row>
+              <!-- Contact info -->
+<v-col cols="12" md="5">
+  <div class="d-flex flex-column ga-8">
+    <!-- Google Maps embed -->
+    <v-card rounded="lg" flat color="grey-darken-4" class="overflow-hidden">
+      <iframe 
+        src="https://www.google.com/maps?q=MICHELE%20CARS%20SERVICE%20AUTO%20Caraiman%206%20Constanta&output=embed" 
+        width="100%" 
+        height="200" 
+        style="border:0" 
+        allowfullscreen 
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </v-card>
+    <!-- link direct Google Maps -->
+    <div class="mt-2 text-center">
+      <a 
+        href="https://www.google.com/maps?q=MICHELE+CARS+SERVICE+AUTO+Caraiman+6+Constanta" 
+        target="_blank" 
+        rel="noopener" 
+        class="text-gold text-decoration-none text-body-2"
+      >
+        📍 Deschide în Google Maps
+      </a>
+    </div>
+    <!-- Address -->
+    <div class="d-flex align-start ga-4">
+      <v-avatar color="amber" variant="tonal" rounded="lg" size="48">
+        <v-icon>mdi-map-marker</v-icon>
+      </v-avatar>
+      <div>
+        <div class="text-subtitle-1 font-weight-bold text-white">Adresa</div>
+        <div class="text-body-2 text-grey">
+          Strada Caraiman Nr.6, Constanța, România
+        </div>
+      </div>
+    </div>
+    <!-- Phone -->
+    <div class="d-flex align-start ga-4">
+      <v-avatar color="amber" variant="tonal" rounded="lg" size="48">
+        <v-icon>mdi-phone</v-icon>
+      </v-avatar>
+      <div>
+        <div class="text-subtitle-1 font-weight-bold text-white">Telefon</div>
+        <div class="text-body-2 text-grey">
+          <a href="tel:+40727124898" class="text-grey text-decoration-none">0727 124 898</a><br>
+          <a href="tel:+40770495591" class="text-grey text-decoration-none">0770 495 591</a>
+        </div>
+      </div>
+    </div>
+    <!-- Email -->
+    <div class="d-flex align-start ga-4">
+      <v-avatar color="amber" variant="tonal" rounded="lg" size="48">
+        <v-icon>mdi-email</v-icon>
+      </v-avatar>
+      <div>
+        <div class="text-subtitle-1 font-weight-bold text-white">Email</div>
+        <div class="text-body-2 text-grey">
+          <a href="mailto:mihailescuamihai_ii@yahoo.com" class="text-grey text-decoration-none">
+            mihailescuamihai_ii@yahoo.com
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- Schedule -->
+    <div class="d-flex align-start ga-4">
+      <v-avatar color="amber" variant="tonal" rounded="lg" size="48">
+        <v-icon>mdi-clock-outline</v-icon>
+      </v-avatar>
+      <div>
+        <div class="text-subtitle-1 font-weight-bold text-white">Program</div>
+        <v-table density="compact" class="mt-2" style="background:transparent">
+          <tbody>
+            <tr v-for="h in schedule" :key="h.day">
+              <td class="text-grey text-body-2 ps-0">{{ h.day }}</td>
+              <td class="text-body-2 font-weight-medium" :class="h.closed ? 'text-red' : 'text-white'">
+                {{ h.hours }}
+              </td>
+            </tr>
+          </tbody>
+        </v-table>
+      </div>
+    </div>
+  </div>
+</v-col>
+
+              <!-- Contact form -->
+              <v-col cols="12" md="7">
+                <v-card color="grey-darken-4" rounded="lg" class="pa-6 pa-md-8">
+                  <v-card-title class="text-h6 font-weight-bold px-0 mb-4">Formular Programare</v-card-title>
+                  <v-form
+  ref="contactForm"
+  v-model="formValid"
+  name="contact"
+  method="POST"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+  @submit.prevent="submitForm"
+>
+  <input type="hidden" name="form-name" value="contact">
+  <p style="display:none">
+    <label>Nu completa acest câmp: <input name="bot-field" /></label>
+  </p>
+  <v-row>
+    <v-col cols="12" sm="6">
+      <v-text-field
+        name="nume"
+        v-model="form.name"
+        label="Nume complet"
+        variant="outlined"
+        density="comfortable"
+        :rules="[rules.required]"
+        color="amber"
+      ></v-text-field>
+    </v-col>
+    <v-col cols="12" sm="6">
+      <v-text-field
+        name="telefon"
+        v-model="form.phone"
+        label="Numar telefon"
+        variant="outlined"
+        density="comfortable"
+        :rules="[rules.required]"
+        color="amber"
+        type="tel"
+      ></v-text-field>
+    </v-col>
+    <v-col cols="12">
+      <v-text-field
+        name="email"
+        v-model="form.email"
+        label="Email"
+        variant="outlined"
+        density="comfortable"
+        :rules="[rules.email]"
+        color="amber"
+        type="email"
+      ></v-text-field>
+    </v-col>
+    <v-col cols="12">
+      <v-select
+        name="serviciu"
+        v-model="form.service"
+        :items="serviceOptions"
+        label="Serviciu dorit"
+        variant="outlined"
+        density="comfortable"
+        color="amber"
+      ></v-select>
+    </v-col>
+    <v-col cols="12">
+      <v-textarea
+        name="detalii"
+        v-model="form.details"
+        label="Detalii (marca, model, problema)"
+        variant="outlined"
+        density="comfortable"
+        rows="4"
+        color="amber"
+      ></v-textarea>
+    </v-col>
+    <v-col cols="12">
+      <v-checkbox
+        name="consimtamant"
+        v-model="form.consent"
+        label="Sunt de acord cu prelucrarea datelor personale"
+        color="amber"
+        :rules="[rules.required]"
+        density="compact"
+      ></v-checkbox>
+    </v-col>
+    <v-col cols="12">
+      <v-btn
+        type="submit"
+        color="amber"
+        size="x-large"
+        rounded
+        block
+        variant="flat"
+        prepend-icon="mdi-send"
+        :loading="formLoading"
+        :disabled="!formValid"
+        class="text-black font-weight-bold"
+      >
+        Trimite Programarea
+      </v-btn>
+      <v-alert
+        v-if="formStatus"
+        :type="formStatus.type"
+        variant="tonal"
+        class="mt-4"
+        closable
+      >
+        {{ formStatus.message }}
+      </v-alert>
+    </v-col>
+  </v-row>
+</v-form>
+                </v-card>
+              </v-col>
+            </v-row>
+          </v-container>
+        </section>
+
+        <!-- ======== FOOTER ======== -->
+        <v-footer class="footer-section py-8" style="background:#0a0a0a">
+          <v-container>
+            <v-row>
+              <v-col cols="12" md="4">
+                <div class="mb-2">
+                  <img src="logo.png" alt="Michele Cars" height="44">
+                </div>
+                <p class="text-body-2 text-grey">Service auto profesional in Constanta. Seriozitate si competenta de peste 30 de ani.</p>
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="text-subtitle-2 font-weight-bold text-white mb-3">Link-uri Rapide</div>
+                <div class="d-flex flex-column ga-1">
+                  <a v-for="item in navItems" :key="item.id" @click.prevent="scrollTo(item.id)"
+                    class="text-body-2 text-grey cursor-pointer" style="cursor:pointer">{{ item.label }}</a>
+                </div>
+              </v-col>
+              <v-col cols="12" md="4">
+                <div class="text-subtitle-2 font-weight-bold text-white mb-3">Contact</div>
+                <div class="text-body-2 text-grey">
+                  <div class="mb-1"><v-icon size="14" class="mr-1">mdi-map-marker</v-icon> Strada Caraiman Nr.6, Constanta</div>
+                  <div class="mb-1"><v-icon size="14" class="mr-1">mdi-phone</v-icon> 0727 124 898 / 0770 495 591</div>
+                  <div><v-icon size="14" class="mr-1">mdi-email</v-icon> mihailescuamihai_ii@yahoo.com</div>
+                </div>
+              </v-col>
+            </v-row>
+            <v-divider class="my-6" style="opacity:.1"></v-divider>
+            <div class="text-center text-caption text-grey">
+              &copy; {{ new Date().getFullYear() }} Michele Cars. Toate drepturile rezervate.
+            </div>
+          </v-container>
+        </v-footer>
+
+      </v-main>
+
+      <!-- ======== FLOATING PROMO ======== -->
+      <transition name="promo-slide">
+        <div v-if="showPromo" class="promo-floating">
+          <v-card color="grey-darken-4" rounded="lg" elevation="12" class="promo-floating-card">
+            <v-btn icon="mdi-close" size="x-small" variant="text" color="grey" class="promo-close-btn" @click="dismissPromo"></v-btn>
+            <div class="d-flex align-center ga-4 pa-4">
+              <div class="promo-badge-float">
+                <span class="text-h4 font-weight-black text-black">-10%</span>
+              </div>
+              <div>
+                <div class="text-subtitle-2 font-weight-bold text-white">Promotie Manopera</div>
+                <div class="text-caption text-grey">Cu piese de la noi, beneficiezi de reducere!</div>
+                <div class="text-caption text-gold mt-1">01.01.2026 - 31.12.2026</div>
+              </div>
+            </div>
+          </v-card>
+        </div>
+      </transition>
+
+      <!-- ======== WHATSAPP FAB ======== -->
+      <div class="whatsapp-fab" style="position:fixed;bottom:24px;right:24px;z-index:9999">
+        <v-btn :href="whatsappUrl" target="_blank" icon color="green" size="x-large" elevation="8">
+          <v-icon size="32">mdi-whatsapp</v-icon>
+        </v-btn>
+      </div>
+
+    </v-app>
+  </div>
+
+  <!-- Vue 3 + Vuetify 3 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.5.13/dist/vue.global.prod.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@3.7.6/dist/vuetify.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

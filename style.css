@@ -1,0 +1,139 @@
+/* ============================================
+   MICHELE CARS - Custom overrides for Vuetify
+   ============================================ */
+
+html { scroll-behavior: smooth; }
+
+/* Hero section */
+.hero-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(245,197,24,.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(73,154,162,.05) 0%, transparent 50%),
+    #0d0d0d;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(245,197,24,.1);
+  border: 1px solid rgba(245,197,24,.25);
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-size: .85rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.text-gold { color: #f5c518 !important; }
+.bg-gold { background-color: #f5c518 !important; }
+.border-gold { border-color: #f5c518 !important; }
+
+/* Service cards hover effect */
+.service-card {
+  transition: all .3s ease !important;
+  border-top: 3px solid transparent !important;
+}
+.service-card:hover {
+  transform: translateY(-6px);
+  border-top-color: #f5c518 !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,.4) !important;
+}
+
+/* Floating promo */
+.promo-floating {
+  position: fixed;
+  bottom: 100px;
+  left: 24px;
+  z-index: 9998;
+}
+.promo-floating-card {
+  position: relative;
+  border: 1px solid rgba(245,197,24,.3) !important;
+  max-width: 320px;
+  animation: promo-glow 2.5s ease-in-out infinite;
+}
+.promo-close-btn {
+  position: absolute !important;
+  top: 4px;
+  right: 4px;
+  z-index: 1;
+}
+.promo-badge-float {
+  background: #f5c518;
+  border-radius: 12px;
+  padding: 10px 14px;
+  min-width: 72px;
+  text-align: center;
+  flex-shrink: 0;
+}
+@keyframes promo-glow {
+  0%, 100% { box-shadow: 0 4px 20px rgba(245,197,24,.15); }
+  50% { box-shadow: 0 4px 32px rgba(245,197,24,.35); }
+}
+/* Promo slide transition */
+.promo-slide-enter-active { animation: promo-enter .5s ease-out; }
+.promo-slide-leave-active { animation: promo-enter .3s ease-in reverse; }
+@keyframes promo-enter {
+  from { opacity: 0; transform: translateX(-40px) scale(.9); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+/* Price rows inside expansion panels */
+.price-row {
+  transition: background .2s ease;
+  border-radius: 4px;
+}
+.price-row:hover {
+  background: rgba(245,197,24,.06) !important;
+}
+.price-row-alt {
+  background: rgba(255,255,255,.015) !important;
+}
+
+/* WhatsApp FAB pulse */
+.whatsapp-fab .v-btn {
+  animation: fab-pulse 2s infinite;
+}
+@keyframes fab-pulse {
+  0%, 100% { box-shadow: 0 4px 16px rgba(37,211,102,.4); }
+  50% { box-shadow: 0 4px 28px rgba(37,211,102,.6); }
+}
+
+/* Smooth scroll offset for fixed navbar */
+section[id] {
+  scroll-margin-top: 64px;
+}
+
+/* Stats counter style */
+.stat-number {
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* Footer */
+.footer-section a {
+  text-decoration: none;
+}
+
+/* Price expansion panels */
+.price-panels .v-expansion-panel {
+  border: 1px solid rgba(255,255,255,.06) !important;
+}
+.price-panels .v-expansion-panel--active {
+  border-color: rgba(245,197,24,.2) !important;
+}
+.price-panels .v-expansion-panel-title__overlay {
+  opacity: 0 !important;
+}
+
+/* Mobile nav drawer adjustments */
+.v-navigation-drawer .v-list-item-title {
+  font-weight: 500;
+}
