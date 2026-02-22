@@ -187,7 +187,7 @@ const app = createApp({
         icon: 'mdi-oil',
         chipColor: 'amber',
         items: [
-          { name: 'Revizie ulei, filtre si RESETARE BORD', multi: '200 lei', suv: '500 lei' },
+          { name: 'Revizie ulei, filtre si RESETARE BORD', multi: '200 lei', suv: '575 lei' },
           { name: 'Inlocuit ulei si filtru ulei', multi: '100 lei', suv: '150 lei' },
           { name: 'Inlocuit antigel', multi: '100 lei', suv: '150 lei' },
           { name: 'Inlocuit lichid de frana', multi: '150 lei', suv: '200 lei' },
