@@ -54,8 +54,8 @@ exports.handler = async (event) => {
 
     // Trimitere efectivă
     await transporter.sendMail({
-      from: `"Michele Cars Website" <${process.env.SMTP_USER}>`,
-      to: process.env.NOTIFY_EMAIL || 'mihailescuamihai_ii@yahoo.com',
+      from: '"Michele Cars Website" <mihailescuamihai_ii@yahoo.com>',
+      to: 'mihailescuamihai_ii@yahoo.com',
       subject: subject,
       text: body,
     });
