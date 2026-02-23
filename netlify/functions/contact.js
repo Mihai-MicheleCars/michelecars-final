@@ -1,11 +1,7 @@
 const nodemailer = require("nodemailer");
 
 exports.handler = async (event) => {
-  console.log("--- Functia contact a fost pornita ---");
-
-  if (event.httpMethod !== "POST") {
-    return { statusCode: 405, body: "Method Not Allowed" };
-  }
+  if (event.httpMethod !== "POST") return { statusCode: 405, body: "Method Not Allowed" };
 
   try {
     let payload;
@@ -20,8 +16,10 @@ exports.handler = async (event) => {
       payload = Object.fromEntries(params);
     }
 
-    const { name, phone, email, service, details } = payload;
-    console.log(`Date primite pentru: ${name}`);
+    // Această parte va pune în mail tot ce scrie clientul
+    const formDetails = Object.entries(payload)
+      .map(([key, value]) => `${key}: ${value}`)
+      .join('\n');
 
     const transporter = nodemailer.createTransport({
       host: "smtp.mail.yahoo.com",
@@ -33,32 +31,20 @@ exports.handler = async (event) => {
       },
     });
 
-    // Construire mesaj
-    const mailOptions = {
+    await transporter.sendMail({
       from: '"Michele Cars Website" <mihailescuamihai_ii@yahoo.com>',
       to: 'mihailescuamihai_ii@yahoo.com',
-      subject: `[Michele Cars] Programare noua: ${name || 'Client'}`,
-      text: `Nume: ${name}\nTelefon: ${phone}\nEmail: ${email}\nServiciu: ${service}\nDetalii: ${details}`
-    };
-
-    console.log("Se incearca trimiterea e-mailului catre Yahoo...");
-    
-    // TRIMITERE EFECTIVA
-    const info = await transporter.sendMail(mailOptions);
-    
-    console.log("Raspuns Yahoo confirmare:", info.messageId);
+      subject: `[Michele Cars] Mesaj nou formular`,
+      text: `Ai primit un mesaj nou:\n\n${formDetails}\n\nData: ${new Date().toLocaleString('ro-RO')}`,
+    });
 
     return {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: "Succes! Email trimis." }),
+      body: JSON.stringify({ message: "Succes!" }),
     };
-
   } catch (error) {
-    console.error("EROARE LA TRIMITERE:", error);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: error.message }),
-    };
+    console.error("Eroare:", error);
+    return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
   }
 };
