@@ -1,12 +1,13 @@
 const nodemailer = require("nodemailer");
 
 exports.handler = async (event) => {
+  console.log("--- Functia contact a fost pornita ---");
+
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
 
   try {
-    // REPARAȚIE: Această parte transformă datele "ciudate" în date citibile
     let payload;
     const bodyContent = event.isBase64Encoded 
       ? Buffer.from(event.body, 'base64').toString() 
@@ -20,35 +21,7 @@ exports.handler = async (event) => {
     }
 
     const { name, phone, email, service, details } = payload;
-
-    if (!name || !phone) {
-      return { 
-        statusCode: 400, 
-        body: JSON.stringify({ error: "Numele si telefonul sunt obligatorii." }) 
-      };
-    }
-
-    const sanitize = (str) => String(str || '').replace(/[<>]/g, '').trim().slice(0, 500);
-    const data = {
-      name: sanitize(name),
-      phone: sanitize(phone),
-      email: sanitize(email),
-      service: sanitize(service),
-      details: sanitize(details)
-    };
-
-    const subject = `[Michele Cars] Programare noua de la ${data.name}`;
-    const body = [
-      `Programare noua de pe site:`,
-      ``,
-      `Nume: ${data.name}`,
-      `Telefon: ${data.phone}`,
-      `Email: ${data.email || 'Nespecificat'}`,
-      `Serviciu: ${data.service || 'Nespecificat'}`,
-      `Detalii: ${data.details || 'Niciun detaliu'}`,
-      ``,
-      `Data: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Bucharest' })}`
-    ].join('\n');
+    console.log(`Date primite pentru: ${name}`);
 
     const transporter = nodemailer.createTransport({
       host: "smtp.mail.yahoo.com",
@@ -60,20 +33,29 @@ exports.handler = async (event) => {
       },
     });
 
-    await transporter.sendMail({
+    // Construire mesaj
+    const mailOptions = {
       from: '"Michele Cars Website" <mihailescuamihai_ii@yahoo.com>',
       to: 'mihailescuamihai_ii@yahoo.com',
-      subject: subject,
-      text: body,
-    });
+      subject: `[Michele Cars] Programare noua: ${name || 'Client'}`,
+      text: `Nume: ${name}\nTelefon: ${phone}\nEmail: ${email}\nServiciu: ${service}\nDetalii: ${details}`
+    };
+
+    console.log("Se incearca trimiterea e-mailului catre Yahoo...");
+    
+    // TRIMITERE EFECTIVA
+    const info = await transporter.sendMail(mailOptions);
+    
+    console.log("Raspuns Yahoo confirmare:", info.messageId);
 
     return {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: "Email trimis cu succes!" }),
+      body: JSON.stringify({ message: "Succes! Email trimis." }),
     };
+
   } catch (error) {
-    console.error("Eroare trimitere:", error);
+    console.error("EROARE LA TRIMITERE:", error);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: error.message }),
