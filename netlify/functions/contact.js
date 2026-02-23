@@ -1,15 +1,26 @@
 const nodemailer = require("nodemailer");
 
 exports.handler = async (event) => {
-  // Acceptăm doar cereri de tip POST (trimiteri de formular)
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
 
   try {
-    const { name, phone, email, service, details } = JSON.parse(event.body);
+    // REPARAȚIE: Această parte transformă datele "ciudate" în date citibile
+    let payload;
+    const bodyContent = event.isBase64Encoded 
+      ? Buffer.from(event.body, 'base64').toString() 
+      : event.body;
 
-    // Validare de bază
+    try {
+      payload = JSON.parse(bodyContent);
+    } catch (e) {
+      const params = new URLSearchParams(bodyContent);
+      payload = Object.fromEntries(params);
+    }
+
+    const { name, phone, email, service, details } = payload;
+
     if (!name || !phone) {
       return { 
         statusCode: 400, 
@@ -17,7 +28,6 @@ exports.handler = async (event) => {
       };
     }
 
-    // Curățare date (Sanitize)
     const sanitize = (str) => String(str || '').replace(/[<>]/g, '').trim().slice(0, 500);
     const data = {
       name: sanitize(name),
@@ -27,7 +37,6 @@ exports.handler = async (event) => {
       details: sanitize(details)
     };
 
-    // Construire text email
     const subject = `[Michele Cars] Programare noua de la ${data.name}`;
     const body = [
       `Programare noua de pe site:`,
@@ -41,18 +50,16 @@ exports.handler = async (event) => {
       `Data: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Bucharest' })}`
     ].join('\n');
 
-    // Configurare transport SMTP (pompa de mail)
-   const transporter = nodemailer.createTransport({
+    const transporter = nodemailer.createTransport({
       host: "smtp.mail.yahoo.com",
       port: 465,
-      secure: true, // Yahoo folosește SSL pe portul 465
+      secure: true, 
       auth: {
         user: "mihailescuamihai_ii@yahoo.com", 
         pass: "zqbelhcwnpomkvpo"
       },
     });
 
-    // Trimitere efectivă
     await transporter.sendMail({
       from: '"Michele Cars Website" <mihailescuamihai_ii@yahoo.com>',
       to: 'mihailescuamihai_ii@yahoo.com',
@@ -62,14 +69,14 @@ exports.handler = async (event) => {
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ success: true, message: "Programare primita cu succes!" }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: "Email trimis cu succes!" }),
     };
-
-  } catch (err) {
-    console.error('Contact form error:', err);
+  } catch (error) {
+    console.error("Eroare trimitere:", error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "Eroare server. Va rugam incercati din nou." }),
+      body: JSON.stringify({ error: error.message }),
     };
   }
 };
