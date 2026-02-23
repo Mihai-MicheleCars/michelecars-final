@@ -5,5 +5,8 @@
   "scripts": {
     "dev": "npx serve .",
     "build": "echo 'Static site - no build needed'"
+  },
+  "dependencies": {
+    "nodemailer": "^8.0.1"
   }
 }
