@@ -4,22 +4,24 @@ exports.handler = async (event) => {
   if (event.httpMethod !== "POST") return { statusCode: 405, body: "Method Not Allowed" };
 
   try {
-    let payload;
     const bodyContent = event.isBase64Encoded 
       ? Buffer.from(event.body, 'base64').toString() 
       : event.body;
 
-    try {
-      payload = JSON.parse(bodyContent);
-    } catch (e) {
-      const params = new URLSearchParams(bodyContent);
-      payload = Object.fromEntries(params);
-    }
+    // Extragere curată a datelor (elimină WebKitFormBoundary)
+    const extractField = (name) => {
+      const regex = new RegExp(`name="${name}"\\s*\\r?\\n\\r?\\n([^\\r\\n]+)`, 'i');
+      const match = bodyContent.match(regex);
+      return match ? match[1].trim() : 'Nespecificat';
+    };
 
-    // Această parte va pune în mail tot ce scrie clientul
-    const formDetails = Object.entries(payload)
-      .map(([key, value]) => `${key}: ${value}`)
-      .join('\n');
+    const dateClient = {
+      nume: extractField('nume'),
+      telefon: extractField('telefon'),
+      email: extractField('email'),
+      serviciu: extractField('serviciu'),
+      detalii: extractField('detalii')
+    };
 
     const transporter = nodemailer.createTransport({
       host: "smtp.mail.yahoo.com",
@@ -32,10 +34,16 @@ exports.handler = async (event) => {
     });
 
     await transporter.sendMail({
-      from: '"Michele Cars Website" <mihailescuamihai_ii@yahoo.com>',
+      from: '"Michele Cars" <mihailescuamihai_ii@yahoo.com>',
       to: 'mihailescuamihai_ii@yahoo.com',
-      subject: `[Michele Cars] Mesaj nou formular`,
-      text: `Ai primit un mesaj nou:\n\n${formDetails}\n\nData: ${new Date().toLocaleString('ro-RO')}`,
+      subject: `[Programare Noua] ${dateClient.nume}`,
+      text: `Date Programare:\n\n` +
+            `Nume: ${dateClient.nume}\n` +
+            `Telefon: ${dateClient.telefon}\n` +
+            `Email: ${dateClient.email}\n` +
+            `Serviciu: ${dateClient.serviciu}\n` +
+            `Detalii: ${dateClient.detalii}\n\n` +
+            `Data: ${new Date().toLocaleString('ro-RO')}`,
     });
 
     return {
@@ -44,7 +52,6 @@ exports.handler = async (event) => {
       body: JSON.stringify({ message: "Succes!" }),
     };
   } catch (error) {
-    console.error("Eroare:", error);
     return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
   }
 };
