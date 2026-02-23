@@ -42,13 +42,13 @@ exports.handler = async (event) => {
     ].join('\n');
 
     // Configurare transport SMTP (pompa de mail)
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT || "587"),
-      secure: process.env.SMTP_PORT === "465",
+   const transporter = nodemailer.createTransport({
+      host: "smtp.mail.yahoo.com",
+      port: 465,
+      secure: true, // Yahoo folosește SSL pe portul 465
       auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
+        user: "mihailescuamihai_ii@yahoo.com", 
+        pass: "zqbelhcwnpomkvpo"
       },
     });
 
