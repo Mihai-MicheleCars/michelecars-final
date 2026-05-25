@@ -369,7 +369,7 @@ async function submitForm() {
     const formEl = contactForm.value.$el;
     const formData = new FormData(formEl);
     // trimitere către Netlify Forms
-   await fetch("/.netlify/functions/contact", {
+   await fetch("/api/contact", {
       method: "POST",
       body: formData,
     });
