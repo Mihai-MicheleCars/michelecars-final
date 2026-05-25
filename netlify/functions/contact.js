@@ -43,7 +43,7 @@ exports.handler = async (event) => {
             `Email: ${dateClient.email}\n` +
             `Serviciu: ${dateClient.serviciu}\n` +
             `Detalii: ${dateClient.detalii}\n\n` +
-            `Data: ${new Date().toLocaleString('ro-RO')}`,
+            `Data: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Bucharest' })}`,
     });
 
     return {
