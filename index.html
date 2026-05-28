@@ -113,32 +113,8 @@
     </section>
 
         <!-- ======== SERVICII with images ======== -->
-        <section id="servicii" class="py-16" style="background:#111">
-          <v-container>
-            <div class="text-center mb-12">
-              <h2 class="text-h3 font-weight-bold text-white">Serviciile <span class="text-gold">Noastre</span></h2>
-              <p class="text-body-1 text-grey mt-2 mx-auto" style="max-width:550px">
-                Oferim o gama completa de servicii auto, de la reparatii mecanice si electrice pana la detailing profesional.
-              </p>
-            </div>
-
-            <v-row>
-              <v-col v-for="service in services" :key="service.title" cols="12" sm="6" lg="4">
-                <v-card class="service-card h-100" color="grey-darken-4" rounded="lg" flat>
-                  <!-- Service image -->
-                  <v-img :src="service.image" height="200" cover class="align-end"
-                    gradient="to bottom, rgba(0,0,0,0) 50%, rgba(26,26,26,1) 100%">
-                    <v-card-title class="text-white font-weight-bold pb-2">
-                      <v-avatar size="36" :color="service.color" variant="tonal" rounded="lg" class="mr-3">
-                        <v-icon :icon="service.icon" size="20"></v-icon>
-                      </v-avatar>
-                      {{ service.title }}
-                    </v-card-title>
-                  </v-img>
-                  <v-card-text class="text-grey pt-4">
-                    {{ service.description }}
-                    <v-list density="compact" bg-color="transparent" class="mt-3 pa-0" v-if="service.items.length">
-                      <v-list-item v-for="item in service.items" :key="item" class="px-0" density="compact" min-height="32">
+       
+            
                         <template #prepend>
                           <v-icon icon="mdi-check-circle" color="amber" size="16" class="mr-2"></v-icon>
                         </template>
@@ -152,17 +128,7 @@
           </v-container>
         </section>
 
-        <!-- spacer between services and prices -->
-        <div style="height:32px;background:#0d0d0d"></div>
-
-        <!-- ======== LISTA DE PRETURI ======== -->
-        <section id="preturi" class="py-16" style="background:#0d0d0d">
-          <v-container>
-            <div class="text-center mb-8">
-              <h2 class="text-h3 font-weight-bold text-white">Lista de <span class="text-gold">Preturi</span></h2>
-              <p class="text-body-2 text-grey mt-3 font-italic mx-auto" style="max-width:700px">
-                Preturile din aceasta lista sunt informative. Oferta finala pentru manopera se calculeaza in baza unui deviz si poate varia in functie de marca autoturismului, anul de fabricatie si complexitatea lucrarilor.
-              </p>
+        
             </div>
 
             <!-- Grouped expansion panels -->
@@ -453,6 +419,36 @@
         </v-footer>
 
       </v-main>
+      <!-- ======== SECTIUNE FEEDBACK CURATA ======== -->
+    <section id="feedback" class="py-16" style="background-color: #111; color: #fff; text-align: center;">
+      <v-container>
+        <h2 class="text-h3 font-weight-bold mb-8">Ce spun clienții noștri</h2>
+        <v-row justify="center" class="ga-4">
+          <v-col cols="12" md="4">
+            <v-card class="pa-6" elevation="2" color="grey-darken-4">
+              <p class="text-body-1 mb-4">"Servicii prompte și profesionale. Recomand!"</p>
+              <strong class="text-amber">- Ion Popescu</strong>
+            </v-card>
+          </v-col>
+          <v-col cols="12" md="4">
+            <v-card class="pa-6" elevation="2" color="grey-darken-4">
+              <p class="text-body-1 mb-4">"Reparație rapidă și prețuri corecte."</p>
+              <strong class="text-amber">- Maria Ionescu</strong>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </section>
+
+  </v-app>
+</div>
+
+<!-- Vue 3 + Vuetify 3 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/vue@3.5.13/dist/vue.global.prod.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@3.7.6/dist/vuetify.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
 
       <!-- ======== FLOATING PROMO ======== -->
       <transition name="promo-slide">
@@ -479,19 +475,7 @@
           <v-icon size="32">mdi-whatsapp</v-icon>
         </v-btn>
       </div>
-<section id="feedback" style="padding: 40px; background-color: #f9f9f9; text-align: center;">
-  <h2 style="color: black;">Ce spun clienții noștri</h2>
-  <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 20px;">
-    <div style="background: white; padding: 20px; width: 300px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: black;">
-      <p>"Servicii prompte și profesionale. Recomand!"</p>
-      <strong>- Ion Popescu</strong>
-    </div>
-    <div style="background: white; padding: 20px; width: 300px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: black;">
-      <p>"Reparație rapidă și prețuri corecte."</p>
-      <strong>- Maria Ionescu</strong>
-    </div>
-  </div>
-</section>
+<
     </v-app>
   </div>
 
